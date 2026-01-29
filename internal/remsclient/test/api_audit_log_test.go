@@ -11,10 +11,11 @@ package openapi
 
 import (
 	"context"
+	"testing"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	openapiclient "github.com/umccr/terraform-provider-remscontent/internal/remsclient"
-	"testing"
 )
 
 func Test_openapi_AuditLogAPIService(t *testing.T) {
