@@ -1,4 +1,4 @@
-module github.com/umccr/terraform-provider-rems
+module github.com/umccr/terraform-provider-rems-content
 
 go 1.24.0
 

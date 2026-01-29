@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	"github.com/umccr/terraform-provider-rems/internal/provider"
+	"github.com/umccr/terraform-provider-rems-content/internal/provider"
 )
 
 var (
@@ -31,7 +31,7 @@ func main() {
 		// TODO: Update this string with the published name of your provider.
 		// Also update the tfplugindocs generate command to either remove the
 		// -provider-name flag or set its value to the updated provider name.
-		Address: "registry.terraform.io/guardians/rems",
+		Address: "registry.terraform.io/umccr/remscontent",
 		Debug:   debug,
 	}
 

@@ -26,12 +26,12 @@ func NewResourceResource() resource.Resource {
 	return &ResourceResource{}
 }
 
-// WorkflowResource defines the resource implementation.
+// ResourceResource defines the resource implementation.
 type ResourceResource struct {
 	client *http.Client
 }
 
-// WorkflowResourceModel describes the resource data model.
+// ResourceModel describes the resource data model.
 type ResourceResourceModel struct {
 	ConfigurableAttribute types.String `tfsdk:"configurable_attribute"`
 	Defaulted             types.String `tfsdk:"defaulted"`
@@ -44,8 +44,7 @@ func (r *ResourceResource) Metadata(ctx context.Context, req resource.MetadataRe
 
 func (r *ResourceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "Example resource",
+		MarkdownDescription: "Resource resource",
 
 		Attributes: map[string]schema.Attribute{
 			"configurable_attribute": schema.StringAttribute{

@@ -7,10 +7,10 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/umccr/terraform-provider-rems/internal/provider/data_sources"
-	"github.com/umccr/terraform-provider-rems/internal/provider/functions"
-	"github.com/umccr/terraform-provider-rems/internal/provider/resources"
-	remsclient "github.com/umccr/terraform-provider-rems/internal/remsclient"
+	"github.com/umccr/terraform-provider-rems-content/internal/provider/data_sources"
+	"github.com/umccr/terraform-provider-rems-content/internal/provider/functions"
+	"github.com/umccr/terraform-provider-rems-content/internal/provider/resources"
+	remsclient "github.com/umccr/terraform-provider-rems-content/internal/remsclient"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
@@ -21,36 +21,36 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// Ensure RemsProvider satisfies various provider interfaces.
-var _ provider.Provider = &RemsProvider{}
-var _ provider.ProviderWithFunctions = &RemsProvider{}
-var _ provider.ProviderWithEphemeralResources = &RemsProvider{}
+// Ensure RemsContentProvider satisfies various provider interfaces.
+var _ provider.Provider = &RemsContentProvider{}
+var _ provider.ProviderWithFunctions = &RemsContentProvider{}
+var _ provider.ProviderWithEphemeralResources = &RemsContentProvider{}
 
-// RemsProvider defines the provider implementation.
-type RemsProvider struct {
+// RemsContentProvider defines the provider implementation.
+type RemsContentProvider struct {
 	// version is set to the provider version on release, "dev" when the
 	// provider is built and ran locally, and "test" when running acceptance
 	// testing.
 	version string
 }
 
-// RemsProviderModel describes the provider data model.
-type RemsProviderModel struct {
+// RemsContentProviderModel describes the provider data model.
+type RemsContentProviderModel struct {
 	Endpoint types.String `tfsdk:"endpoint"`
 	ApiUser  types.String `tfsdk:"api_user"`
 	ApiKey   types.String `tfsdk:"api_key"`
 }
 
-func (p *RemsProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "rems"
+func (p *RemsContentProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "remscontent"
 	resp.Version = p.version
 }
 
-func (p *RemsProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+func (p *RemsContentProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
-				MarkdownDescription: "REMS endpoint (DNS name only, not URI)",
+				MarkdownDescription: "REMS instance endpoint (DNS name only, not URI)",
 				Required:            true,
 			},
 			"api_user": schema.StringAttribute{
@@ -66,8 +66,8 @@ func (p *RemsProvider) Schema(ctx context.Context, req provider.SchemaRequest, r
 	}
 }
 
-func (p *RemsProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data RemsProviderModel
+func (p *RemsContentProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	var data RemsContentProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -108,7 +108,7 @@ func (p *RemsProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 	resp.ResourceData = client
 }
 
-func (p *RemsProvider) Resources(ctx context.Context) []func() resource.Resource {
+func (p *RemsContentProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		resources.NewCatalogueItemResource,
 		resources.NewCategoryResource,
@@ -119,11 +119,11 @@ func (p *RemsProvider) Resources(ctx context.Context) []func() resource.Resource
 	}
 }
 
-func (p *RemsProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
+func (p *RemsContentProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
 	return []func() ephemeral.EphemeralResource{}
 }
 
-func (p *RemsProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+func (p *RemsContentProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		data_sources.NewOrganizationDataSource,
 	}
@@ -131,7 +131,7 @@ func (p *RemsProvider) DataSources(ctx context.Context) []func() datasource.Data
 
 // :description :email :date :phone-number :table :header :texta :option :label :multiselect :ip-address :attachment :text
 
-func (p *RemsProvider) Functions(ctx context.Context) []func() function.Function {
+func (p *RemsContentProvider) Functions(ctx context.Context) []func() function.Function {
 	return []func() function.Function{
 		functions.NewFormFieldHeaderFunction,
 		functions.NewFormFieldLabelFunction,
@@ -140,7 +140,7 @@ func (p *RemsProvider) Functions(ctx context.Context) []func() function.Function
 
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
-		return &RemsProvider{
+		return &RemsContentProvider{
 			version: version,
 		}
 	}
