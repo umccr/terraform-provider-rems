@@ -80,7 +80,7 @@ development override in your `~/.terraformrc` (make sure you customise the path 
 provider_installation {
 
   dev_overrides {
-      "registry.terraform.io/guardians/rems" = ".. path where your Go binaries get installed .."
+      "registry.terraform.io/umccr/remscontent" = ".. path where your Go binaries get installed .."
   }
 
   # For all other providers, install them directly from their origin provider
@@ -92,7 +92,7 @@ provider_installation {
 
 To generate or update documentation, run `make generate`.
 
-## Archive
+## Archive (may not be accurate)
 
 _This template repository is built on the [Terraform Plugin Framework](https://github.com/hashicorp/terraform-plugin-framework). The template
 repository built on the [Terraform Plugin SDK](https://github.com/hashicorp/terraform-plugin-sdk) can be
