@@ -81,10 +81,7 @@ const minimalWorkflowReadJSON = `{
   "archived": false,
   "workflow": {
     "type": "workflow/default",
-    "anonymize-handling": false,
-    "handlers": [],
-    "forms": [],
-    "licenses": []
+    "anonymize-handling": false
   }
 }`
 
@@ -136,9 +133,7 @@ func TestWorkflowResource_CreateWithHandlers(t *testing.T) {
     "handlers": [
       {"userid": "handler1@example.com"},
       {"userid": "handler2@example.com"}
-    ],
-    "forms": [],
-    "licenses": []
+    ]
   }
 }`
 
@@ -177,14 +172,14 @@ func TestWorkflowResource_UpdateTitle(t *testing.T) {
   "id": 42, "title": "Original Title",
   "organization": {"organization/id": "test-org", "organization/name": {}, "organization/short-name": {}},
   "enabled": true, "archived": false,
-  "workflow": {"type": "workflow/default", "anonymize-handling": false, "handlers": [], "forms": [], "licenses": []}
+  "workflow": {"type": "workflow/default", "anonymize-handling": false}
 }`
 	// Step 2: updated title returned by Read after update
 	step2ReadJSON := `{
   "id": 42, "title": "Updated Title",
   "organization": {"organization/id": "test-org", "organization/name": {}, "organization/short-name": {}},
   "enabled": true, "archived": false,
-  "workflow": {"type": "workflow/default", "anonymize-handling": false, "handlers": [], "forms": [], "licenses": []}
+  "workflow": {"type": "workflow/default", "anonymize-handling": false}
 }`
 
 	// Use a counter to serve different responses per step
@@ -251,7 +246,7 @@ func TestWorkflowResource_Disabled(t *testing.T) {
   "id": 42, "title": "Disabled Workflow",
   "organization": {"organization/id": "test-org", "organization/name": {}, "organization/short-name": {}},
   "enabled": false, "archived": false,
-  "workflow": {"type": "workflow/default", "anonymize-handling": false, "handlers": [], "forms": [], "licenses": []}
+  "workflow": {"type": "workflow/default", "anonymize-handling": false}
 }`
 
 	factories, cleanup := testProviderWithMockServer(t, mockWorkflowHandler(readJSON))
@@ -438,9 +433,6 @@ func TestWorkflowResource_DisableCommandsAndProcessingStates(t *testing.T) {
   "workflow": {
     "type": "workflow/default",
     "anonymize-handling": false,
-    "handlers": [],
-    "forms": [],
-    "licenses": [],
     "disable-commands": [
       {
         "command": "application.command/accept-invitation",
@@ -522,7 +514,7 @@ resource "remscontent_workflow" "test" {
 
 func TestWorkflowResource_DisableCommandsEmptyRoleAndState(t *testing.T) {
 	// Verifies that a disable_commands entry with no when_role / when_state
-	// is handled without panic (nil slices are normalised to empty lists).
+	// is handled without panic (server omits the fields, state stays null).
 	readJSON := `{
   "id": 42,
   "title": "Minimal Disable",
@@ -536,14 +528,9 @@ func TestWorkflowResource_DisableCommandsEmptyRoleAndState(t *testing.T) {
   "workflow": {
     "type": "workflow/default",
     "anonymize-handling": false,
-    "handlers": [],
-    "forms": [],
-    "licenses": [],
     "disable-commands": [
       {
-        "command": "application.command/close",
-        "when/state": [],
-        "when/role": []
+        "command": "application.command/close"
       }
     ]
   }
@@ -567,8 +554,6 @@ resource "remscontent_workflow" "test" {
   disable_commands = [
     {
       command    = "application.command/close"
-      when_state = []
-      when_role  = []
     }
   ]
 }`,

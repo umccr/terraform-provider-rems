@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -103,23 +104,32 @@ func (r *WorkflowResource) Schema(ctx context.Context, req resource.SchemaReques
 			"licenses": schema.ListAttribute{
 				Optional:            true,
 				ElementType:         types.Int64Type,
-				MarkdownDescription: "List of license IDs that applicants must accept when submitting through this workflow.",
+				MarkdownDescription: "List of license IDs that applicants must accept when submitting through this workflow. Omit rather than setting an empty list.",
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.RequiresReplace(),
+				},
+				Validators: []validator.List{
+					listvalidator.SizeAtLeast(1),
 				},
 			},
 			"forms": schema.ListAttribute{
 				Optional:            true,
 				ElementType:         types.Int64Type,
-				MarkdownDescription: "List of form IDs attached to this workflow. Applicants will fill these forms on submission.",
+				MarkdownDescription: "List of form IDs attached to this workflow. Applicants will fill these forms on submission. Omit rather than setting an empty list.",
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.RequiresReplace(),
+				},
+				Validators: []validator.List{
+					listvalidator.SizeAtLeast(1),
 				},
 			},
 			"handlers": schema.ListAttribute{
 				Optional:            true,
 				ElementType:         types.StringType,
-				MarkdownDescription: "List of handler user IDs (CILogon `userid`) responsible for reviewing applications. Use the `remscontent_actor` data source to look up a user ID by email.",
+				MarkdownDescription: "List of handler user IDs (CILogon `userid`) responsible for reviewing applications. Use the `remscontent_actor` data source to look up a user ID by email. Omit rather than setting an empty list.",
+				Validators: []validator.List{
+					listvalidator.SizeAtLeast(1),
+				},
 			},
 			"anonymize_handling": schema.BoolAttribute{
 				Optional:            true,
@@ -139,12 +149,18 @@ func (r *WorkflowResource) Schema(ctx context.Context, req resource.SchemaReques
 						"when_role": schema.ListAttribute{
 							Optional:            true,
 							ElementType:         types.StringType,
-							MarkdownDescription: "Roles for which this command is disabled. Values must match the role strings defined in the [REMS application permissions docs](https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md).",
+							MarkdownDescription: "Roles for which this command is disabled. Values must match the role strings defined in the [REMS application permissions docs](https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md). Omit rather than setting an empty list.",
+							Validators: []validator.List{
+								listvalidator.SizeAtLeast(1),
+							},
 						},
 						"when_state": schema.ListAttribute{
 							Optional:            true,
 							ElementType:         types.StringType,
-							MarkdownDescription: "Application states in which this command is disabled. Values must match the state strings defined in the [REMS application permissions docs](https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md).",
+							MarkdownDescription: "Application states in which this command is disabled. Values must match the state strings defined in the [REMS application permissions docs](https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md). Omit rather than setting an empty list.",
+							Validators: []validator.List{
+								listvalidator.SizeAtLeast(1),
+							},
 						},
 					},
 				},
@@ -381,18 +397,10 @@ func (r *WorkflowResource) Read(ctx context.Context, req resource.ReadRequest, r
 	if len(wfBody.DisableCommands) > 0 {
 		cmds := make([]DisableCommandModel, len(wfBody.DisableCommands))
 		for i, dc := range wfBody.DisableCommands {
-			whenRole := dc.WhenRole
-			if whenRole == nil {
-				whenRole = []string{}
-			}
-			whenState := dc.WhenState
-			if whenState == nil {
-				whenState = []string{}
-			}
 			cmds[i] = DisableCommandModel{
 				Command:   types.StringValue(dc.Command),
-				WhenRole:  whenRole,
-				WhenState: whenState,
+				WhenRole:  dc.WhenRole,
+				WhenState: dc.WhenState,
 			}
 		}
 		state.DisableCommands = &cmds

@@ -6,11 +6,13 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/umccr/terraform-provider-remscontent/internal/provider/shared"
@@ -58,7 +60,10 @@ func (r *CategoryResource) Schema(ctx context.Context, req resource.SchemaReques
 			"children": schema.ListAttribute{
 				Optional:            true,
 				ElementType:         types.Int64Type,
-				MarkdownDescription: "List of categories children.",
+				MarkdownDescription: "List of categories children. Omit rather than setting an empty list.",
+				Validators: []validator.List{
+					listvalidator.SizeAtLeast(1),
+				},
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,

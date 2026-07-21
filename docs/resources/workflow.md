@@ -65,9 +65,9 @@ resource "remscontent_workflow" "example_1" {
 - `archived` (Boolean) Whether this workflow is archived. Archived workflows are hidden from administrators. Defaults to `false`.
 - `disable_commands` (Attributes List) Rules to disable specific application commands for certain roles or states. see: https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md (see [below for nested schema](#nestedatt--disable_commands))
 - `enabled` (Boolean) Whether this workflow is active. Disabled workflows cannot be assigned to new catalogue items. Defaults to `true`.
-- `forms` (List of Number) List of form IDs attached to this workflow. Applicants will fill these forms on submission.
-- `handlers` (List of String) List of handler user IDs (CILogon `userid`) responsible for reviewing applications. Use the `remscontent_actor` data source to look up a user ID by email.
-- `licenses` (List of Number) List of license IDs that applicants must accept when submitting through this workflow.
+- `forms` (List of Number) List of form IDs attached to this workflow. Applicants will fill these forms on submission. Omit rather than setting an empty list.
+- `handlers` (List of String) List of handler user IDs (CILogon `userid`) responsible for reviewing applications. Use the `remscontent_actor` data source to look up a user ID by email. Omit rather than setting an empty list.
+- `licenses` (List of Number) List of license IDs that applicants must accept when submitting through this workflow. Omit rather than setting an empty list.
 - `processing_states` (Attributes List) Custom processing states visible during application review. (see [below for nested schema](#nestedatt--processing_states))
 
 ### Read-Only
@@ -83,8 +83,8 @@ Required:
 
 Optional:
 
-- `when_role` (List of String) Roles for which this command is disabled. Values must match the role strings defined in the [REMS application permissions docs](https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md).
-- `when_state` (List of String) Application states in which this command is disabled. Values must match the state strings defined in the [REMS application permissions docs](https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md).
+- `when_role` (List of String) Roles for which this command is disabled. Values must match the role strings defined in the [REMS application permissions docs](https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md). Omit rather than setting an empty list.
+- `when_state` (List of String) Application states in which this command is disabled. Values must match the state strings defined in the [REMS application permissions docs](https://github.com/CSCfi/rems/blob/master/docs/application-permissions.md). Omit rather than setting an empty list.
 
 
 <a id="nestedatt--processing_states"></a>

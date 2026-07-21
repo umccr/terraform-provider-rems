@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -159,8 +160,11 @@ var fieldSchema = schema.NestedAttributeObject{
 				},
 				"has_value": schema.ListAttribute{
 					Optional:            true,
-					MarkdownDescription: "List of option keys that the field referenced by `field_id` must match for this field to be visible. Only applies when `visibility_type` is `only-if`.",
+					MarkdownDescription: "List of option keys that the field referenced by `field_id` must match for this field to be visible. Only applies when `visibility_type` is `only-if`. Omit rather than setting an empty list.",
 					ElementType:         types.StringType,
+					Validators: []validator.List{
+						listvalidator.SizeAtLeast(1),
+					},
 				},
 			},
 		},
