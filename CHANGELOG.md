@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.2
+
+BUG FIXES:
+
+* List attributes no longer accept empty lists; omit the attribute instead.
+
+ENHANCEMENTS:
+
+* Upgrade dependencies.
+* Minor README/docs updates.
+
 ## 0.0.1
 
 Initial release. Adds support for managing REMS content via Terraform.

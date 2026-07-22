@@ -20,11 +20,11 @@ func mockResourceHandler(resourcesJSON string) http.Handler {
 
 const resourcesListJSON = `[
   {
-    "id": 1, "resid": "urn:test:001", "archived": false, "enabled": true, "licenses": [],
+    "id": 1, "resid": "urn:test:001", "archived": false, "enabled": true,
     "organization": {"organization/id": "org1", "organization/name": {"en": "Org 1"}, "organization/short-name": {"en": "O1"}}
   },
   {
-    "id": 2, "resid": "urn:test:002", "archived": false, "enabled": true, "licenses": [],
+    "id": 2, "resid": "urn:test:002", "archived": false, "enabled": true,
     "organization": {"organization/id": "org1", "organization/name": {"en": "Org 1"}, "organization/short-name": {"en": "O1"}}
   }
 ]`
@@ -76,11 +76,11 @@ data "remscontent_resource" "test" {
 func TestResourceDataSource_MultipleResidsError(t *testing.T) {
 	duplicatesJSON := `[
   {
-    "id": 1, "resid": "urn:test:dup", "archived": false, "enabled": true, "licenses": [],
+    "id": 1, "resid": "urn:test:dup", "archived": false, "enabled": true,
     "organization": {"organization/id": "org1", "organization/name": {"en": "Org 1"}, "organization/short-name": {"en": "O1"}}
   },
   {
-    "id": 2, "resid": "urn:test:dup", "archived": false, "enabled": true, "licenses": [],
+    "id": 2, "resid": "urn:test:dup", "archived": false, "enabled": true,
     "organization": {"organization/id": "org1", "organization/name": {"en": "Org 1"}, "organization/short-name": {"en": "O1"}}
   }
 ]`

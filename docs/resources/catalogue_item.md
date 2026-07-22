@@ -74,7 +74,7 @@ resource "remscontent_catalogue_item" "item1" {
 ### Optional
 
 - `archived` (Boolean) Whether this catalogue item is archived. Defaults to `false`.
-- `categories` (List of Number) List of categories.
+- `categories` (List of Number) List of categories. Omit rather than setting an empty list.
 - `enabled` (Boolean) Whether this catalogue item is active. Defaults to `true`.
 - `form_id` (Number) The internal ID of the form to use. If omitted, no form is required.
 

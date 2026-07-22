@@ -44,7 +44,6 @@ const minimalResourceReadJSON = `{
     "organization/name": {},
     "organization/short-name": {}
   },
-  "licenses": [],
   "enabled": true,
   "archived": false
 }`
@@ -127,7 +126,6 @@ func TestResourceResource_Disabled(t *testing.T) {
   "id": 10,
   "resid": "urn:example:dataset1",
   "organization": {"organization/id": "test-org", "organization/name": {}, "organization/short-name": {}},
-  "licenses": [],
   "enabled": false,
   "archived": false
 }`
@@ -159,12 +157,12 @@ func TestResourceResource_UpdateEnabledArchived(t *testing.T) {
 	step1ReadJSON := `{
   "id": 10, "resid": "urn:example:dataset1",
   "organization": {"organization/id": "test-org", "organization/name": {}, "organization/short-name": {}},
-  "licenses": [], "enabled": true, "archived": false
+  "enabled": true, "archived": false
 }`
 	step2ReadJSON := `{
   "id": 10, "resid": "urn:example:dataset1",
   "organization": {"organization/id": "test-org", "organization/name": {}, "organization/short-name": {}},
-  "licenses": [], "enabled": false, "archived": true
+	"enabled": false, "archived": true
 }`
 
 	callCount := 0

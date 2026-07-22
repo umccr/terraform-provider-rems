@@ -46,7 +46,7 @@ resource "remscontent_resource" "resource_1" {
 
 - `archived` (Boolean) Whether this resource is archived. Defaults to `false`.
 - `enabled` (Boolean) Whether this resource is active. Defaults to `true`.
-- `licenses` (List of Number) List of license IDs that applicants must accept when applying for this resource.
+- `licenses` (List of Number) List of license IDs that applicants must accept when applying for this resource. Omit rather than setting an empty list.
 
 ### Read-Only
 

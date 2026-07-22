@@ -146,4 +146,4 @@ Required:
 Optional:
 
 - `field_id` (String) The ID of the field this visibility depends on. Only applies when `visibility_type` is `only-if`.
-- `has_value` (List of String) List of option keys that the field referenced by `field_id` must match for this field to be visible. Only applies when `visibility_type` is `only-if`.
+- `has_value` (List of String) List of option keys that the field referenced by `field_id` must match for this field to be visible. Only applies when `visibility_type` is `only-if`. Omit rather than setting an empty list.

@@ -29,7 +29,7 @@ resource "remscontent_category" "category_1" {
 
 ### Optional
 
-- `children` (List of Number) List of categories children.
+- `children` (List of Number) List of categories children. Omit rather than setting an empty list.
 - `description` (String) Category description.
 - `display_order` (Number) Display order for the category.
 
