@@ -70,6 +70,7 @@ func (p *RemsContentProvider) Metadata(ctx context.Context, req provider.Metadat
 
 func (p *RemsContentProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "The REMS Content provider manages the content of an existing [REMS](https://github.com/CSCfi/rems) (Resource Entitlement Management System) instance. It does **not** install REMS itself — it manages forms, workflows, licences, catalogue items, categories, and more within an already running REMS deployment.",
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
 				MarkdownDescription: "REMS instance endpoint (DNS name only, not URI)",
